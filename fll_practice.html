@@ -1,0 +1,126 @@
+<!DOCTYPE html> <!-- 7:58 -->
+<html>
+	<head>
+		<title>FLL Practice Countdown</title>
+		<style>
+			body {
+				font-family: monospace;
+			}
+			#counter {
+				left: 100px;
+				position: absolute;
+				font-size: 350px;
+			}
+			#from {
+				position: absolute;
+				font-family: monospace;
+				font-size: 100px;
+				top: 500px;
+				left: 200px;
+			}
+			#mid {
+				position: absolute;
+				font-family: monospace;
+				font-size: 100px;
+				top: 500px;
+				right: 640px;
+			}
+			#to {
+				position: absolute;
+				font-family: monospace;
+				font-size: 100px;
+				top: 500px;
+				right: 250px;
+			}
+			#now {
+				left: 100px;
+				bottom: 50px;
+				position: absolute;
+				font-size: 220px;
+			}
+			#team {
+				position: absolute;
+				font-size: 75px;
+				top: 350px;
+				left: 0;
+				right: 60px;
+				text-align: center;
+			}
+			.active {
+				font-weight: bold;
+				font-size: 150%;
+			}
+		</style>
+		<script>
+			function $(x) {
+				return document.getElementById(x);
+			}
+			function pad(x) {
+				var out = x + "";
+				if (out.length == 1) {
+					return "0" + out;
+				} else {
+					return out;
+				}
+			}
+			var os = "Opening Ceremony";
+			var signups = [	0,		0,		0,		3072,	0,		11614,	0,		6277,	9154,	4353,	-1,		-1,		//  8:00 -  8:55
+							-1,		-1,		-1,		-1,		-1,		-1,		12666,	11610,	3242,	11614,	7561,	10277,	//  9:00 -  9:55
+							7561,	0,		5975,	4266,	12858,	18228,	7280,	0,		7561,	10277,	15746,	13881,	// 10:00 - 10:55
+							11614,	3242,	6277,	18228,	10277,	10223,	3027,	5975,	3027,	10223,	14501,	13881,	// 11:00 - 11:55
+							4266,	18228,	5975,	0,		11610,	7280,	0,		7280,	7561,	15746,	9154,	14501,	// 12:00 - 12:55
+							12666,	3242,	6277,	14501,	10223,	14501,	12858,	7561,	13881,	18228,	3242,	3072];	//  1:00 -  1:55
+							
+			setInterval(function() {
+				var d = new Date();
+				var h = 1 + (d.getHours() - 1), m = d.getMinutes(), s = d.getSeconds();
+				var counter = $("counter"), from = $("from"), to = $("to"), now = $("now"), team = $("team");
+				var offset = Math.floor(((h - 8) * 60 + m) / 5);
+				var teamno = 0, teamprev = 0, teamnext = 0;
+				if (offset >= 0 && offset < signups.length) {
+					teamno = signups[offset];
+				}
+				offset++;
+				if (offset >= 0 && offset < signups.length) {
+					teamnext = signups[offset];
+				}
+				offset -= 2;
+				if (offset >= 0 && offset < signups.length) {
+					teamprev = signups[offset];
+				}
+				now.innerHTML = pad(h) + ":" + pad(m) + ":" + pad(s);
+				if (teamno == -1) {
+					team.innerHTML = "Opening Ceremony";
+					from.innerHTML = "8:50";
+					to.innerHTML = "9:30";
+					counter.innerHTML = "--:--";
+					counter.style.color = "grey";
+				} else {
+					team.innerHTML = (teamprev == 0 ? "None" : "" + teamprev) + "..<span class='active'>" + (teamno == 0 ? "None" : "" + teamno) + "</span>.." + (teamnext == 0 ? "None" : "" + teamnext);
+					from.innerHTML = pad(h) + ":" + pad(m - m % 5);
+					if (m >= 55) {
+						to.innerHTML = pad(h+1) + ":00";
+					} else {
+						to.innerHTML = pad(h) + ":" + pad(5 + m - m % 5);
+					}
+					var since = m * 60 + s;
+					var count = 300 - (since % 300);
+					if (count == 300) { count = 0; }
+					if (count == 60 || count == 10) {
+						new Audio("beep-01.wav").play();
+					}
+					counter.innerHTML = pad(Math.floor(count / 60)) + ":" + pad(count % 60);
+					counter.style.color = (count < 60) ? "red" : "black";
+				}
+			}, 1000);
+		</script>
+	</head>
+	<body>
+		<div id="counter">--:--</div>
+		<div id="from">--:--</div>
+		<div id="mid">-</div>
+		<div id="to">--:--</div>
+		<div id="now">--:--:--</div>
+		<div id="team">----</div>
+	</body>
+</html>
