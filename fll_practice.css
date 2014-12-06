@@ -1,0 +1,47 @@
+body {
+	font-family: monospace;
+}
+#counter {
+	left: 100px;
+	position: absolute;
+	font-size: 350px;
+}
+#from {
+	position: absolute;
+	font-family: monospace;
+	font-size: 100px;
+	top: 500px;
+	left: 200px;
+}
+#mid {
+	position: absolute;
+	font-family: monospace;
+	font-size: 100px;
+	top: 500px;
+	right: 640px;
+}
+#to {
+	position: absolute;
+	font-family: monospace;
+	font-size: 100px;
+	top: 500px;
+	right: 250px;
+}
+#now {
+	left: 100px;
+	bottom: 50px;
+	position: absolute;
+	font-size: 220px;
+}
+#team {
+	position: absolute;
+	font-size: 75px;
+	top: 350px;
+	left: 0;
+	right: 60px;
+	text-align: center;
+}
+.active {
+	font-weight: bold;
+	font-size: 150%;
+}
