@@ -23,7 +23,6 @@ function pad(x) {
 
 var base_time = 8 * 3600 + 0 * 60 + 0;
 var time_slot_length = 5 * 60;
-var default_entry = 0;
 var red_threshold = 60, beep_threshold = [60, 10];
 
 function get_seconds_from_base(d) {
@@ -42,9 +41,9 @@ function get_team_slot(offset) {
 	}
 }
 
-function format_slot(slot) {
+function format_slot(slot, main) {
 	if (typeof slot !== "number") {
-		return slot[5];
+		return slot[main ? 0 : 5];
 	} else if (slot == 0) {
 		return "None";
 	} else {
@@ -64,27 +63,21 @@ function update() {
 	var offset = get_time_slot(d);
 	var teamno = get_team_slot(offset), teamnext = get_team_slot(offset + 1), teamprev = get_team_slot(offset - 1);
 	$("now", pad(h) + ":" + pad(m) + ":" + pad(s));
-	if (typeof teamno !== "number") {
-		$("team", teamno[0]);
-		$("from", teamno[1]);
-		$("to", teamno[2]);
-		$("counter", teamno[3], teamno[4]);
+	var complex = typeof teamno !== "number";
+	$("team", format_slot(teamprev) + "..<span class='active'>" + format_slot(teamno, true) + "</span>.." + format_slot(teamnext), false, true);
+	$("from", pad(h) + ":" + pad(m - m % 5));
+	if (m >= 55) {
+		$("to", pad(h+1) + ":00");
 	} else {
-		$("team", format_slot(teamprev) + "..<span class='active'>" + format_slot(teamno) + "</span>.." + format_slot(teamnext), false, true);
-		$("from", pad(h) + ":" + pad(m - m % 5));
-		if (m >= 55) {
-			$("to", pad(h+1) + ":00");
-		} else {
-			$("to", pad(h) + ":" + pad(5 + m - m % 5));
-		}
-		var since = get_seconds_from_base(d);
-		var count = time_slot_length - (since % time_slot_length);
-		if (count == time_slot_length) { count = 0; }
-		if (beep_threshold.indexOf(count) !== -1) {
-			new Audio("beep-01.wav").play();
-		}
-		$("counter", pad(Math.floor(count / 60)) + ":" + pad(count % 60), (count < red_threshold) ? "red" : "black");
+		$("to", pad(h) + ":" + pad(5 + m - m % 5));
 	}
+	var since = get_seconds_from_base(d);
+	var count = time_slot_length - (since % time_slot_length);
+	if (count == time_slot_length) { count = 0; }
+	if (beep_threshold.indexOf(count) !== -1) {
+		new Audio("beep-01.wav").play();
+	}
+	$("counter", (complex && teamno[3]) || (pad(Math.floor(count / 60)) + ":" + pad(count % 60)), (complex && teamno[4]) || ((count < red_threshold) ? "red" : "black"));
 }
 
 function start() {
