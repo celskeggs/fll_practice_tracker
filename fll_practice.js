@@ -21,7 +21,7 @@ function pad(x) {
 	}
 }
 
-var base_time = 8 * 3600 + 0 * 60 + 0;
+var base_time = 8 * 3600 + 0 * 60 + (window.location.toString().includes(":8080") ? 0 : 0);
 var time_slot_length = 5 * 60;
 var red_threshold = 60, beep_threshold = [60, 10];
 

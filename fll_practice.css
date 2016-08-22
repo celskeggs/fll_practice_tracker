@@ -1,45 +1,47 @@
 body {
-	font-family: monospace;
+	font-family: Liberation Mono;
 }
 #counter {
-	left: 100px;
+	left: 280px;
 	position: absolute;
 	font-size: 350px;
-	top: -50px;
+	top: 30px;
 }
 #from {
 	position: absolute;
 	font-family: monospace;
-	font-size: 100px;
-	top: 450px;
-	left: 200px;
+	font-size: 110px;
+	top: 660px;
+	left: 430px;
 }
 #mid {
 	position: absolute;
 	font-family: monospace;
-	font-size: 100px;
-	top: 450px;
-	right: 640px;
+	font-size: 110px;
+	top: 650px;
+	right: 760px;
 }
 #to {
 	position: absolute;
 	font-family: monospace;
-	font-size: 100px;
-	top: 450px;
-	right: 250px;
+	font-size: 110px;
+	top: 660px;
+	right: 420px;
 }
 #now {
-	left: 100px;
-	bottom: 0px;
+	left: 0;
+	bottom: 50px;
 	position: absolute;
+	text-align: center;
+	right: 0;
 	font-size: 220px;
 }
 #team {
 	position: absolute;
-	font-size: 75px;
-	top: 300px;
+	font-size: 120px;
+	top: 450px;
 	left: 0;
-	right: 60px;
+	right: 0px;
 	text-align: center;
 }
 .active {
